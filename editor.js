@@ -1,4 +1,11 @@
-import { reifyTemplate, dispatchEvent, hide, show, setValue } from './utils.js';
+import {
+  reifyTemplate,
+  dispatchEvent,
+  hide,
+  show,
+  setValue,
+  observeMouseOutsideOfContainer,
+} from './utils.js';
 
 export const getHandlers = (editor) => {
   return {
@@ -57,6 +64,11 @@ export const makeEditor = () => {
   input.addEventListener('focus', handlers.onFocus);
   list.addEventListener('click', handlers.onSelect);
   input.addEventListener('keydown', handlers.onCancelKey);
+
+  observeMouseOutsideOfContainer(editor).subscribe((evt) => {
+    console.log('mouse down outside ', evt);
+    dispatchEvent(editor, 'change', evt.target.textContent);
+  });
 
   return editor;
 };

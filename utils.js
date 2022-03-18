@@ -1,14 +1,23 @@
-/* Example to keep focus within a component.*/ export const focusChecker =
-  (el) => (evt) => {
-    if (!el.contains(evt.target)) {
-      evt.stopPropagation();
-      el.focus();
-    }
-  };
+import {fromEvent} from rxjs;
+// import { takeUntil } from rxjs.operators;
+
+/* Example to keep focus within a component.*/
+export const focusChecker = (el) => (evt) => {
+  if (!el.contains(evt.target)) {
+    evt.stopPropagation();
+    el.focus();
+  }
+};
 // and then...
 // document.addEvenListener("focus", focusChecker(el), true );
 // to return focus after the component is finished...
 // let lastFocus = document.activeElement;
+
+export const observeMouseOutsideOfContainer = (element) => {
+  return fromEvent(document, 'mousedown').pipe(
+    takeUntil((evt) => !element.contains(evt.target))
+  );
+};
 
 export const eventFactory = (name, data) => {
   var rval = null;

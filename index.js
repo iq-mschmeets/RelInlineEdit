@@ -1,12 +1,12 @@
 // Import stylesheets
 import './style.css';
-import { listenOnce, setValue } from './utils.js';
+import { listenOnce } from './utils.js';
 import { makeEditor } from './editor.js';
 import { of, map, Observable } from 'rxjs';
 
-// of('World')
-//   .pipe(map((name) => `Hello, ${name}!`))
-//   .subscribe(console.log);
+of('World')
+  .pipe(map((name) => `Hello, ${name}!`))
+  .subscribe(console.log);
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
@@ -28,7 +28,6 @@ function myFunction() {
 //   }
 // };
 
-console.log('==========starting out==========');
 const cc = document.querySelector('#center-column');
 cc.appendChild(makeEditor());
 
@@ -55,6 +54,4 @@ const sources = Array.from(
 );
 sources.forEach((p) => p.addEventListener('focus', sourceOnFocus));
 
-console.log('==========ending up==========');
-
-console.log('end of file');
+console.log('========== end of file ==========');
