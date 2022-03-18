@@ -51,53 +51,20 @@ pre {
   color: var(--code-base);
 }
 
-#btn {
-  border: 1px solid blue;
+input {
+  padding: 0.6em 1em;
+  width: 100%;
+  box-sizing: border-box;
+  opacity: 1;
+  border: 2px solid #cacaca;
+  border-radius: 0.25em;
 }
 
-.dropbtn {
-  background-color: #3498db;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Dropdown button on hover & focus */
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #2980b9;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 0.5em 1em;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
+input:focus,
+input:active {
+  outline: 0;
+  border: 2px solid #3498db;
+  border-radius: 0.25em;
 }
 
 .stamp {
@@ -106,7 +73,11 @@ pre {
   border: 1px solid #cacaca;
   padding: 1em;
   box-sizing: border-box;
-  border-radius: 1em;
+  border-radius: 0.75em;
+}
+
+.stamp h3 {
+  margin-top: 0px;
 }
 
 p.rel {
@@ -139,22 +110,7 @@ p.rel {
   z-index: 5;
   background-color: white;
 }
-.form-control {
-}
-input {
-  padding: 0.6em 1em;
-  width: 100%;
-  box-sizing: border-box;
-  opacity: 1;
-  border: 2px solid #cacaca;
-  border-radius: 0.25em;
-}
-input:focus,
-input:active {
-  outline: 0;
-  border: 2px solid #3498db;
-  border-radius: 0.25em;
-}
+
 ul[role='listbox'] {
   margin: 0;
   max-height: 12em;
@@ -165,8 +121,9 @@ ul[role='listbox'] {
   border-bottom: 1px #cacaca solid;
 }
 ul[role='listbox'] li {
-  padding: 0.5em 1em;
+  padding: 0.75em 1em;
   cursor: pointer;
+  font-size: 12px;
 }
 .listbox {
   padding: 0 0;
@@ -196,7 +153,8 @@ ul[role='listbox'] li {
 
 .listbox span.circ-button {
   font-size: 1em;
-  padding: 0em;
+  padding-top: 0em;
+  padding-bottom: 0.1em;
   color: #3498db;
   border: 1px solid #3498db;
   border-radius: 50%;
@@ -206,6 +164,7 @@ ul[role='listbox'] li {
   align-content: center;
   height: 1em;
   width: 1em;
+  cursor: pointer;
 }
 
 .listbox .footer {

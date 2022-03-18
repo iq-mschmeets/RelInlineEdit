@@ -3,24 +3,42 @@ import './style.css';
 import { listenOnce, observeMouseOutsideOfContainer } from './utils.js';
 import { makeEditor } from './editor.js';
 
+// TODO:
+// 1. Still need the "New" case, replace the list with a form.
+// 2. Need to handle the form from within the editor and Still
+//    emit lifecycle events.
+
 const cc = document.querySelector('#center-column');
 cc.appendChild(makeEditor());
 
+// Notice the pattern for this focus handler.
+// It has the entire responsibility for managing
+// the editor.
+// It sets the initial value.
+// Listens for change, cancel, and clickOutside.
 let isEditing = false;
 const sourceOnFocus = (evt) => {
   if (!isEditing) {
-    const editor = makeEditor();
     const src = evt.target;
+    const editor = makeEditor();
+    // Set the intial value.
+    editor.querySelector('input').value =
+      src.querySelector('.value').textContent;
+    // Style and add to DOM.
     editor.style.top = '0px';
     src.appendChild(editor);
     src.querySelector('input').focus();
+
+    // Setup the listeners.
     listenOnce(editor, 'change', (event) => {
       src.querySelector('.value').textContent = event.detail;
       isEditing = false;
     });
+
     listenOnce(editor, 'cancel', (event) => {
       isEditing = false;
     });
+
     const sub = observeMouseOutsideOfContainer(editor).subscribe((evt) => {
       sub.unsubscribe();
       editor.parentElement.removeChild(editor);
