@@ -65,10 +65,5 @@ export const makeEditor = () => {
   list.addEventListener('click', handlers.onSelect);
   input.addEventListener('keydown', handlers.onCancelKey);
 
-  observeMouseOutsideOfContainer(editor).subscribe((evt) => {
-    console.log('mouse down outside ', evt);
-    dispatchEvent(editor, 'change', evt.target.textContent);
-  });
-
   return editor;
 };

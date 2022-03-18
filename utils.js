@@ -1,5 +1,5 @@
-import {fromEvent} from rxjs;
-// import { takeUntil } from rxjs.operators;
+import { fromEvent } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/operators';
 
 /* Example to keep focus within a component.*/
 export const focusChecker = (el) => (evt) => {
@@ -15,7 +15,7 @@ export const focusChecker = (el) => (evt) => {
 
 export const observeMouseOutsideOfContainer = (element) => {
   return fromEvent(document, 'mousedown').pipe(
-    takeUntil((evt) => !element.contains(evt.target))
+    filter((evt) => !element.contains(evt.target))
   );
 };
 

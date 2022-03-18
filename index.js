@@ -1,12 +1,7 @@
 // Import stylesheets
 import './style.css';
-import { listenOnce } from './utils.js';
+import { listenOnce, observeMouseOutsideOfContainer } from './utils.js';
 import { makeEditor } from './editor.js';
-import { of, map, Observable } from 'rxjs';
-
-of('World')
-  .pipe(map((name) => `Hello, ${name}!`))
-  .subscribe(console.log);
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
@@ -44,6 +39,11 @@ const sourceOnFocus = (evt) => {
       isEditing = false;
     });
     listenOnce(editor, 'cancel', (event) => {
+      isEditing = false;
+    });
+    const sub = observeMouseOutsideOfContainer(editor).subscribe((evt) => {
+      sub.unsubscribe();
+      editor.parentElement.removeChild(editor);
       isEditing = false;
     });
   }
