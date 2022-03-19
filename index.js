@@ -8,8 +8,25 @@ import { makeEditor } from './editor.js';
 // 2. Need to handle the form from within the editor and Still
 //    emit lifecycle events.
 
-const cc = document.querySelector('#center-column');
-cc.appendChild(makeEditor());
+const table = document.querySelector('#center-column table');
+
+const getValueForNode = (node) => {
+  let pref = node.querySelector('.value');
+  if (pref) {
+    return node.querySelector('.value').textContent;
+  }
+  return node.textContent;
+};
+
+const setValueForNode = (node, value) => {
+  let pref = node.querySelector('.value');
+  if (pref) {
+    node.querySelector('.value').textContent = value;
+  } else {
+    node.textContent = value;
+  }
+};
+// cc.appendChild(makeEditor());
 
 // Notice the pattern for this focus handler.
 // It has the entire responsibility for managing
@@ -22,8 +39,8 @@ const sourceOnFocus = (evt) => {
     const src = evt.target;
     const editor = makeEditor();
     // Set the intial value.
-    editor.querySelector('input').value =
-      src.querySelector('.value').textContent;
+    editor.querySelector('input').value = getValueForNode(src);
+
     // Style and add to DOM.
     editor.style.top = '0px';
     src.appendChild(editor);
@@ -31,7 +48,7 @@ const sourceOnFocus = (evt) => {
 
     // Setup the listeners.
     listenOnce(editor, 'change', (event) => {
-      src.querySelector('.value').textContent = event.detail;
+      setValueForNode(src, event.detail);
       isEditing = false;
     });
 
@@ -54,8 +71,12 @@ const sources = Array.from(
   document.querySelector('.stamp').querySelectorAll('p.rel')
 );
 
+const cells = Array.from(table.querySelectorAll('td[tabindex="0"]'));
+console.log(cells);
 // Add a listener to each of the p.rel's in the stamp.
 // When they get focus, we'll overlay the editor.
 sources.forEach((p) => p.addEventListener('focus', sourceOnFocus));
+
+cells.forEach((p) => p.addEventListener('focus', sourceOnFocus));
 
 console.log('========== end of file ==========');

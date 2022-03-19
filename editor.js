@@ -50,12 +50,16 @@ export const getHandlers = (editor) => {
         }
       }
     },
+    onNew(evt) {
+      console.log('New button clicked !!');
+    },
   };
 };
 
 export const makeEditor = () => {
   const editor = reifyTemplate('editor-template').firstElementChild;
   const input = editor.querySelector('input');
+  const newBtn = editor.querySelector('.listbox .footer');
   const list = editor.querySelector('.listbox');
   const handlers = getHandlers(editor);
 
@@ -64,6 +68,7 @@ export const makeEditor = () => {
   input.addEventListener('focus', handlers.onFocus);
   list.addEventListener('click', handlers.onSelect);
   input.addEventListener('keydown', handlers.onCancelKey);
+  newBtn.addEventListener('click', handlers.onNew);
 
   return editor;
 };
