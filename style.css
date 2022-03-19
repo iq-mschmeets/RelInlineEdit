@@ -124,10 +124,16 @@ p.rel {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
-  display: block;
+  opacity: 1;
+  transform: scale(1, 1);
+  transform-origin: top left;
+  transition: all 0.3s ease-out;
 }
 .hide {
-  display: none;
+  opacity: 1;
+  transform: scale(1, 0);
+  transform-origin: top left;
+  transition: all 0.3s ease-in;
 }
 
 .columns {

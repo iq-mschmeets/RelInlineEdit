@@ -30,8 +30,8 @@ export const getHandlers = (editor) => {
     onSelect(evt) {
       if (evt.target.tagName.toLowerCase() === 'li') {
         setValue(editor.querySelector('input'), evt.target.textContent);
-        hide(editor);
         editor.querySelector('input').blur();
+        hide(editor);
         dispatchEvent(editor, 'change', evt.target.textContent);
       }
     },

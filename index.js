@@ -1,6 +1,11 @@
 // Import stylesheets
 import './style.css';
-import { listenOnce, observeMouseOutsideOfContainer } from './utils.js';
+import {
+  listenOnce,
+  observeMouseOutsideOfContainer,
+  setValueForNode,
+  getValueForNode,
+} from './utils.js';
 import { makeEditor } from './editor.js';
 
 // TODO:
@@ -10,22 +15,6 @@ import { makeEditor } from './editor.js';
 
 const table = document.querySelector('#center-column table');
 
-const getValueForNode = (node) => {
-  let pref = node.querySelector('.value');
-  if (pref) {
-    return node.querySelector('.value').textContent;
-  }
-  return node.textContent;
-};
-
-const setValueForNode = (node, value) => {
-  let pref = node.querySelector('.value');
-  if (pref) {
-    node.querySelector('.value').textContent = value;
-  } else {
-    node.textContent = value;
-  }
-};
 // cc.appendChild(makeEditor());
 
 // Notice the pattern for this focus handler.
@@ -37,29 +26,53 @@ let isEditing = false;
 const sourceOnFocus = (evt) => {
   if (!isEditing) {
     const src = evt.target;
-    const editor = makeEditor();
+    let editor = makeEditor();
     // Set the intial value.
     editor.querySelector('input').value = getValueForNode(src);
 
     // Style and add to DOM.
     editor.style.top = '0px';
     src.appendChild(editor);
-    src.querySelector('input').focus();
+    editor.querySelector('input').focus();
 
     // Setup the listeners.
     listenOnce(editor, 'change', (event) => {
-      setValueForNode(src, event.detail);
       isEditing = false;
+      setValueForNode(src, event.detail);
+      console.log(editor.parentElement, src.contains(editor));
+      try {
+        if (src.contains(editor)) {
+          src.removeChild(editor);
+        } else if (editor.parentElement) {
+          editor.parentElement.removeChild(editor);
+        }
+        editor = null;
+      } catch (er) {
+        console.error(er);
+      }
     });
 
     listenOnce(editor, 'cancel', (event) => {
       isEditing = false;
+      editor.parentElement.removeChild(editor);
+      editor = null;
     });
 
     const sub = observeMouseOutsideOfContainer(editor).subscribe((evt) => {
       sub.unsubscribe();
-      editor.parentElement.removeChild(editor);
       isEditing = false;
+      try {
+        if (src.contains(editor)) {
+          src.removeChild(editor);
+        } else if (editor.parentElement) {
+          editor.parentElement.removeChild(editor);
+        }
+        editor = null;
+      } catch (er) {
+        console.error(er);
+      } finally {
+        editor = null;
+      }
     });
   }
   isEditing = true;

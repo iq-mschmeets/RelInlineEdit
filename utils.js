@@ -58,11 +58,34 @@ export const reifyTemplate = (domID) =>
 export const hide = (el) => {
   el.classList.remove('show');
   el.classList.add('hide');
+  listenOnce(el, 'transitionEnd', () => {
+    el.style.display = 'none';
+  });
 };
 
 export const show = (el) => {
   el.classList.remove('hide');
   el.classList.add('show');
+  listenOnce(el, 'transitionEnd', () => {
+    el.style.display = 'block;';
+  });
 };
 
 export const setValue = (input, value) => (input.value = value);
+
+export const getValueForNode = (node) => {
+  let pref = node.querySelector('.value');
+  if (pref) {
+    return node.querySelector('.value').textContent;
+  }
+  return node.textContent;
+};
+
+export const setValueForNode = (node, value) => {
+  let pref = node.querySelector('.value');
+  if (pref) {
+    node.querySelector('.value').textContent = value;
+  } else {
+    node.textContent = value;
+  }
+};
