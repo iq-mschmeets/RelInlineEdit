@@ -35,43 +35,51 @@ const sourceOnFocus = (evt) => {
     src.appendChild(editor);
     editor.querySelector('input').focus();
 
+    const removeEditor = () => {
+      if (src.contains(editor)) {
+        src.removeChild(editor);
+      } else if (editor.parentElement) {
+        editor.parentElement.removeChild(editor);
+      }
+      editor = null;
+    };
+
     // Setup the listeners.
+    const sub = observeMouseOutsideOfContainer(editor).subscribe((evt) => {
+      sub.unsubscribe();
+      isEditing = false;
+      try {
+        removeEditor();
+      } catch (er) {
+        console.error(er);
+      } finally {
+        editor = null;
+      }
+    });
+
     listenOnce(editor, 'change', (event) => {
       isEditing = false;
       setValueForNode(src, event.detail);
       console.log(editor.parentElement, src.contains(editor));
       try {
-        if (src.contains(editor)) {
-          src.removeChild(editor);
-        } else if (editor.parentElement) {
-          editor.parentElement.removeChild(editor);
-        }
-        editor = null;
+        removeEditor();
       } catch (er) {
         console.error(er);
+      } finally {
+        editor = null;
+        sub.unsubscribe();
       }
     });
 
     listenOnce(editor, 'cancel', (event) => {
       isEditing = false;
-      editor.parentElement.removeChild(editor);
-      editor = null;
-    });
-
-    const sub = observeMouseOutsideOfContainer(editor).subscribe((evt) => {
-      sub.unsubscribe();
-      isEditing = false;
       try {
-        if (src.contains(editor)) {
-          src.removeChild(editor);
-        } else if (editor.parentElement) {
-          editor.parentElement.removeChild(editor);
-        }
-        editor = null;
+        removeEditor();
       } catch (er) {
         console.error(er);
       } finally {
         editor = null;
+        sub.unsubscribe();
       }
     });
   }
