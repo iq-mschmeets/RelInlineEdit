@@ -19,6 +19,8 @@ export const observeMouseOutsideOfContainer = (element) => {
   );
 };
 
+export const isNull = (obj) => typeof obj == 'undefined' || obj == null;
+
 export const eventFactory = (name, data) => {
   var rval = null;
   if (document.createCustomEvent) {
@@ -108,5 +110,33 @@ export const setValueForNode = (node, value) => {
     node.querySelector('.value').textContent = value;
   } else {
     node.textContent = value;
+  }
+};
+
+export const addSafeEventListener = (el, selector, eventName, handler) => {
+  if (isNull(selector)) {
+    return {
+      usub: () => {},
+    };
+  }
+  const node = el.querySelector(selector);
+  if (node) {
+    node.addEventListener(eventName, handler);
+    return {
+      unsub: () => {
+        removeSafeEventListener(el, selector, eventName, handler);
+      },
+    };
+  }
+};
+
+export const removeSafeEventListener = (el, selector, eventName, handler) => {
+  if (isNull(selector)) {
+    return {};
+  }
+  const node = el.querySelector(selector);
+  if (node) {
+    node.removeEventListener(eventName, handler);
+    return {};
   }
 };

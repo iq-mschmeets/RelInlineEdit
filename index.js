@@ -7,6 +7,7 @@ import {
   getValueForNode,
 } from './utils.js';
 import { makeEditor } from './editor.js';
+import { makeIQRelationAttributeEditor } from './IQRelationAttributeEditor.js';
 
 // TODO:
 // 1. Still need the "New" case, replace the list with a form.
@@ -15,7 +16,12 @@ import { makeEditor } from './editor.js';
 
 const table = document.querySelector('#center-column table');
 
-// cc.appendChild(makeEditor());
+customElements.whenDefined('iq-relation-attribute-editor').then(() => {
+  console.log('CE defined');
+});
+customElements.whenDefined('iq-attribute-form').then(() => {
+  console.log('CE defined');
+});
 
 // Notice the pattern for this focus handler.
 // It has the entire responsibility for managing
@@ -26,13 +32,14 @@ let isEditing = false;
 const sourceOnFocus = (evt) => {
   if (!isEditing) {
     const src = evt.target;
-    let editor = makeEditor();
-    // Set the intial value.
-    editor.stringValue = getValueForNode(src);
+    let editor = makeIQRelationAttributeEditor();
 
-    // Style and add to DOM.
-    editor.style.top = '0px';
-    src.appendChild(editor);
+    // Set the intial value.
+    requestAnimationFrame(() => {
+      src.appendChild(editor);
+      editor.stringValue = getValueForNode(src);
+      editor.style.top = '0px';
+    });
 
     const removeEditor = () => {
       if (src.contains(editor)) {
@@ -59,6 +66,7 @@ const sourceOnFocus = (evt) => {
     listenOnce(editor, 'change', (event) => {
       isEditing = false;
       editor.stringValue = event.detail;
+      setValueForNode(src, editor.stringValue);
       console.log(editor.parentElement, src.contains(editor));
       try {
         removeEditor();
@@ -92,11 +100,11 @@ const sources = Array.from(
 );
 
 const cells = Array.from(table.querySelectorAll('td[tabindex="0"]'));
-console.log(cells);
+// console.log(cells);
 // Add a listener to each of the p.rel's in the stamp.
 // When they get focus, we'll overlay the editor.
 sources.forEach((p) => p.addEventListener('focus', sourceOnFocus));
 
 cells.forEach((p) => p.addEventListener('focus', sourceOnFocus));
 
-console.log('========== end of file ==========');
+// console.log('========== end of file ==========');

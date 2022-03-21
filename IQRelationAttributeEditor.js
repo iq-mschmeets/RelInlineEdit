@@ -1,25 +1,28 @@
-import { reifyTemplate } from './utils.js';
+import {
+  reifyTemplate,
+  isNull,
+  show,
+  showItem,
+  hide,
+  hideItem,
+  dispatchEvent,
+  listenOnce,
+  addSafeEventListener,
+} from './utils.js';
 
-const getRelLink = () => {
-  const r = document.createElement('link');
-  r.setAttribute('rel', 'stylesheet');
-  r.setAttribute('href', './style.css');
-  return r;
-};
+import { IQAttributeForm, makeIQAttributeForm } from './IQAttributeForm.js';
+
 export class IQRelationAttributeEditor extends HTMLElement {
   constructor() {
     super();
-    // this.attachShadow({ mode: 'open' });
-    // this.shadowRoot.appendChild(
-    //   reifyTemplate('editor-template').firstElementChild
-    // );
-
     this.onChanged = this.onChanged.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onCancelKey = this.onCancelKey.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.onInput = this.onInput.bind(this);
     this.onNew = this.onNew.bind(this);
+
+    this._listeners = [];
   }
 
   static get observedAttributes() {
@@ -28,50 +31,60 @@ export class IQRelationAttributeEditor extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {}
 
-  connectCallback() {
-    this.appendChild(reifyTemplate('editor-template').firstElementChild);
+  connectedCallback() {
+    console.log('%s.connectedCallback', this.tagName);
+    this.appendChild(reifyTemplate('editor-template'));
     this.addEventHandlers();
     requestAnimationFrame(() => {
-      this._el.querySelector('input').focus();
+      this.qs('input').focus();
     });
   }
 
   disconnectedCallback() {
-    this.removeEventHandlers();
+    console.log('%s.disconnectedCallback', this.tagName);
+    try {
+      this.removeEventHandlers();
+    } catch (er) {
+      console.error(er);
+    }
   }
 
-  _el() {
-    // return this.shadowRoot;
-    return this;
+  editor() {
+    return this.shadowRoot || this;
+  }
+
+  qs(selector) {
+    return this.editor().querySelector(selector);
   }
 
   addEventHandlers() {
-    const editor = this._el;
-    const input = editor.querySelector('input');
-    const newBtn = editor.querySelector('.listbox .footer');
-    const list = editor.querySelector('.listbox');
+    const input = this.editor().querySelector('input');
+    const newBtn = this.editor().querySelector('.listbox .footer');
+    const list = this.editor().querySelector('.listbox');
 
-    input.addEventListener('change', this.onChanged);
-    input.addEventListener('input', this.onInput);
-    input.addEventListener('focus', this.onFocus);
-    list.addEventListener('click', this.onSelect);
-    input.addEventListener('keydown', this.onCancelKey);
-    newBtn.addEventListener('click', this.onNew);
+    this._listeners.push(
+      addSafeEventListener(this.editor(), 'input', 'change', this.onChanged)
+    );
+    this._listeners.push(
+      addSafeEventListener(this.editor(), 'input', 'input', this.onInput)
+    );
+    this._listeners.push(
+      addSafeEventListener(this.editor(), 'input', 'focus', this.onFocus)
+    );
+    this._listeners.push(
+      addSafeEventListener(this.editor(), 'input', 'keydown', this.onCancelKey)
+    );
+    this._listeners.push(
+      addSafeEventListener(this.editor(), '.listbox', 'click', this.onSelect)
+    );
+    this._listeners.push(
+      addSafeEventListener(this.editor(), '.listbox', 'click', this.onNew)
+    );
   }
 
   removeEventHandlers() {
-    const editor = this._el;
-    const input = editor.querySelector('input');
-    const newBtn = editor.querySelector('.listbox .footer');
-    const list = editor.querySelector('.listbox');
-    const handlers = getHandlers(editor);
-
-    input.removeEventListener('change', this.onChanged);
-    input.remvoeEventListener('input', this.onInput);
-    input.removeEventListener('focus', this.onFocus);
-    list.removeEventListener('click', this.onSelect);
-    input.removeEventListener('keydown', this.onCancelKey);
-    newBtn.removeEventListener('click', this.onNew);
+    this._listeners.forEach((listener) => listener.unsub());
+    this._listeners = [];
   }
 
   set value(val) {
@@ -91,16 +104,15 @@ export class IQRelationAttributeEditor extends HTMLElement {
   }
 
   onFocus(evt) {
-    show(editor.querySelector('.listbox'));
+    show(this.qs('.listbox'));
   }
 
   onCancelKey(evt) {
     switch (evt.which) {
       case 27: {
-        console.log('escape ', editor);
-        hide(editor);
-        editor.querySelector('input').blur();
-        dispatchEvent(editor, 'change', evt.target.textContent);
+        hide(this);
+        this.qs('input').blur();
+        dispatchEvent(this, 'change', evt.target.textContent);
         break;
       }
     }
@@ -108,10 +120,10 @@ export class IQRelationAttributeEditor extends HTMLElement {
 
   onSelect(evt) {
     if (evt.target.tagName.toLowerCase() === 'li') {
-      setValue(editor.querySelector('input'), evt.target.textContent);
-      editor.querySelector('input').blur();
-      hide(editor);
-      dispatchEvent(editor, 'change', evt.target.textContent);
+      this.stringValue = evt.target.textContent;
+      this.qs('input').blur();
+      hide(this);
+      dispatchEvent(this, 'change', evt.target.textContent);
     }
   }
 
@@ -122,8 +134,8 @@ export class IQRelationAttributeEditor extends HTMLElement {
         break;
       }
       default: {
-        console.log('input ', evt.target.value, evt.target.value === '');
-        const choices = Array.from(editor.querySelectorAll('li'));
+        const choices = Array.from(this.editor().querySelectorAll('li'));
+
         if (evt.target.value === '') {
           choices.forEach(showItem);
           console.log('choices show %o', choices);
@@ -143,22 +155,33 @@ export class IQRelationAttributeEditor extends HTMLElement {
   onNew(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    const formPanel = reifyTemplate('form-template').firstElementChild;
 
-    editor.replaceChild(
-      formPanel.querySelector('.form-panel'),
-      editor.querySelector('.editor-panel')
-    );
+    const aForm = makeIQAttributeForm();
+    const editorPanel = this.qs('.editor-panel');
 
-    console.log('New button clicked !!');
+    listenOnce(aForm, 'cancel', () => {
+      requestAnimationFrame(() => {
+        aForm.replaceWith(editorPanel);
+      });
+    });
+
+    requestAnimationFrame(() => {
+      editorPanel.replaceWith(aForm);
+    });
   }
 }
 
 try {
-  customElements.define(
-    'iq-relation-attribute-editor',
-    IQRelationAttributeEditor
-  );
+  if (isNull(customElements.get('iq-relation-attribute-editor'))) {
+    customElements.define(
+      'iq-relation-attribute-editor',
+      IQRelationAttributeEditor
+    );
+  }
 } catch (er) {
   console.error(er);
+}
+
+export function makeIQRelationAttributeEditor() {
+  return new IQRelationAttributeEditor();
 }
