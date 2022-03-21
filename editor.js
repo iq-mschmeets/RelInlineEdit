@@ -9,6 +9,8 @@ import {
   observeMouseOutsideOfContainer,
 } from './utils.js';
 
+import { IQRelationAttributeEditor } from './IQRelationAttributeEditor.js';
+
 export const getHandlers = (editor) => {
   return {
     editor: editor,
@@ -51,11 +53,12 @@ export const getHandlers = (editor) => {
             console.log('choices show %o', choices);
           } else {
             let re = new RegExp(evt.target.value, 'i');
-            choices.forEach(hideItem);
             const matched = choices.filter((li) => re.test(li.textContent));
-            matched.length == 0
-              ? choices.forEach(showItem)
-              : matched.forEach(showItem);
+            console.log(evt.target.value, matched);
+            requestAnimationFrame(() => {
+              choices.forEach(hideItem);
+              matched.forEach(showItem);
+            });
           }
         }
       }
@@ -64,9 +67,7 @@ export const getHandlers = (editor) => {
       evt.preventDefault();
       evt.stopPropagation();
       const formPanel = reifyTemplate('form-template').firstElementChild;
-      console.log(editor);
-      console.log(editor.querySelector('.editor-panel'));
-      console.log(formPanel.querySelector('.form-panel'));
+
       editor.replaceChild(
         formPanel.querySelector('.form-panel'),
         editor.querySelector('.editor-panel')
@@ -78,18 +79,18 @@ export const getHandlers = (editor) => {
 };
 
 export const makeEditor = () => {
-  const editor = reifyTemplate('editor-template').firstElementChild;
-  const input = editor.querySelector('input');
-  const newBtn = editor.querySelector('.listbox .footer');
-  const list = editor.querySelector('.listbox');
-  const handlers = getHandlers(editor);
+  // const editor = reifyTemplate('editor-template').firstElementChild;
+  // const input = editor.querySelector('input');
+  // const newBtn = editor.querySelector('.listbox .footer');
+  // const list = editor.querySelector('.listbox');
+  // const handlers = getHandlers(editor);
 
-  input.addEventListener('change', handlers.onChanged);
-  input.addEventListener('input', handlers.onInput);
-  input.addEventListener('focus', handlers.onFocus);
-  list.addEventListener('click', handlers.onSelect);
-  input.addEventListener('keydown', handlers.onCancelKey);
-  newBtn.addEventListener('click', handlers.onNew);
+  // input.addEventListener('change', handlers.onChanged);
+  // input.addEventListener('input', handlers.onInput);
+  // input.addEventListener('focus', handlers.onFocus);
+  // list.addEventListener('click', handlers.onSelect);
+  // input.addEventListener('keydown', handlers.onCancelKey);
+  // newBtn.addEventListener('click', handlers.onNew);
 
-  return editor;
+  return new IQRelationAttributeEditor();
 };

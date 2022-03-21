@@ -28,12 +28,11 @@ const sourceOnFocus = (evt) => {
     const src = evt.target;
     let editor = makeEditor();
     // Set the intial value.
-    editor.querySelector('input').value = getValueForNode(src);
+    editor.stringValue = getValueForNode(src);
 
     // Style and add to DOM.
     editor.style.top = '0px';
     src.appendChild(editor);
-    editor.querySelector('input').focus();
 
     const removeEditor = () => {
       if (src.contains(editor)) {
@@ -59,7 +58,7 @@ const sourceOnFocus = (evt) => {
 
     listenOnce(editor, 'change', (event) => {
       isEditing = false;
-      setValueForNode(src, event.detail);
+      editor.stringValue = event.detail;
       console.log(editor.parentElement, src.contains(editor));
       try {
         removeEditor();
