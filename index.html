@@ -9,23 +9,61 @@
   <body>
     <template id="editor-template">
       <div class="container" role="dialog" aria-label="">
-        <input type="text" placeholder="Find..." id="finder" />
-        <div class="hide listbox">
-          <ul id="" role="listbox">
-            <li role="listitem">Joe Blow Inc</li>
-            <li>BigCo</li>
-            <li>LittleCo</li>
-            <li>Magic Money</li>
-            <li>NoTax Co</li>
-            <li>Profits From Heaven</li>
-            <li>Widgets Unlimited</li>
-            <li>Toxicity</li>
-          </ul>
-          <div class="footer" role="button" tabindex="0">
-            <span class="material-icons">add_task</span>
-            <span>Create New</span>
-            <!-- <span class="circ-button">+</span> -->
+        <div class="editor-panel">
+          <input type="text" placeholder="Find..." id="finder" />
+          <div class="hide listbox">
+            <ul id="" role="listbox">
+              <li role="listitem">Joe Blow Inc</li>
+              <li>BigCo</li>
+              <li>LittleCo</li>
+              <li>Magic Money</li>
+              <li>NoTax Co</li>
+              <li>Profits From Heaven</li>
+              <li>Widgets Unlimited</li>
+              <li>Toxicity</li>
+            </ul>
+            <div class="footer" role="button" tabindex="0">
+              <span class="material-icons">add_task</span>
+              <span>Create New</span>
+            </div>
           </div>
+        </div>
+      </div>
+    </template>
+    <template id="form-template">
+      <div class="container" role="dialog">
+        <div class="form-panel">
+          <form action="#">
+            <div class="form-item">
+              <label for="fi-1">First</label>
+              <input type="text" value="" />
+            </div>
+            <div class="form-item">
+              <label for="fi-1">Second</label>
+              <input type="text" value="" />
+            </div>
+            <div class="form-item">
+              <label for="fi-1">Third</label>
+              <input type="text" value="" />
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 0.5em;
+              "
+            >
+              <div class="form-button" style="color: red">
+                <span class="material-icons">close</span>
+                <span>Cancel</span>
+              </div>
+              <div class="form-button" style="color: green">
+                <span class="material-icons">done</span>
+                <span>Save</span>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </template>

@@ -106,7 +106,10 @@ input:active {
   border: 2px solid #3498db;
   border-radius: 0.25em;
 }
-
+.editor-panel input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 .stamp {
   font-family: sans-serif;
   width: 350px;
@@ -140,17 +143,15 @@ p.rel {
 }
 .showItem {
   opacity: 1;
-  transform: scale(1, 1);
+  transform: scale(1);
   transform-origin: top left;
   transition: all 0.2s ease-out;
-  height: 1.4em;
 }
 .hideItem {
-  opacity: 1;
-  transform: scale(1, 0);
+  opacity: 0;
+  transform: scale(0);
   transform-origin: top left;
   transition: all 0.2s ease-in;
-  height: 0em;
 }
 
 .columns {
@@ -164,12 +165,13 @@ p.rel {
 }
 
 .container {
-  max-width: 300px;
+  max-width: 400px;
   position: absolute;
   /* border: 1px solid #cacaca; */
   font-family: sans-serif;
   z-index: 5;
   background-color: white;
+  opacity: 1;
   box-sizing: border-box;
   box-shadow: 0 3px 6px rgb(32 32 32 / 25%);
 }
@@ -190,9 +192,9 @@ ul[role='listbox'] li {
 }
 .listbox {
   padding: 0 0;
-  position: absolute;
+  /* position: absolute;
   top: 2.3em;
-  left: 0;
+  left: 0; */
   background-color: white;
   box-sizing: border-box;
   border: 1px #cacaca solid;
@@ -238,6 +240,38 @@ ul[role='listbox'] li {
 }
 .listbox .footer:active {
   border: 2px solid #3498db;
+}
+
+.form-panel form {
+}
+.form-panel form label {
+  font-size: 0.75em;
+  font-weight: 600;
+  display: block;
+}
+.form-panel form .form-item {
+  padding: 0.5em 1em;
+}
+.form-panel form .form-item:first-of-type {
+  padding-top: 1em;
+}
+.form-panel form .form-item:last-of-type {
+  padding-bottom: 1em;
+}
+.form-panel form .form-button {
+  padding: 0.5em;
+  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50%;
+}
+.form-panel form .form-button:hover,
+.form-panel form .form-button:active {
+  border: 2px solid #3498db;
+}
+.material-icons {
+  vertical-align: bottom;
 }
 
 span.lbl {

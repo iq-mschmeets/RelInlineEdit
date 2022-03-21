@@ -67,6 +67,7 @@ export const hide = (el) => {
 export const show = (el) => {
   el.classList.remove('hide');
   el.classList.add('show');
+  console.log('show');
   // listenOnce(el, 'transitionend', () => {
   //   // el.style.display = 'block';
   //   console.log('show.transitionend fired ', el);
@@ -74,21 +75,21 @@ export const show = (el) => {
 };
 
 export const hideItem = (el) => {
-  el.classList.remove('showItem');
-  el.classList.add('hideItem');
-  listenOnce(el, 'transitionend', () => {
-    el.style.display = 'none';
-    console.log('hide.transitionend fired ', el);
-  });
+  // listenOnce(el, 'transitionend', (e) => {
+  el.style.display = 'none';
+  //   console.log('hide.transitionend fired ', el);
+  // });
+  // el.classList.remove('showItem');
+  // el.classList.add('hideItem');
 };
 
 export const showItem = (el) => {
-  el.classList.remove('hideItem');
-  el.classList.add('showItem');
-  listenOnce(el, 'transitionend', () => {
-    el.style.display = 'block';
-    console.log('show.transitionend fired ', el);
-  });
+  // listenOnce(el, 'transitionend', () => {
+  el.style.display = 'block';
+  //   console.log('show.', el);
+  // });
+  // el.classList.remove('hideItem');
+  // el.classList.add('showItem');
 };
 
 export const setValue = (input, value) => (input.value = value);

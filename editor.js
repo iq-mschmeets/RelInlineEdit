@@ -13,7 +13,7 @@ export const getHandlers = (editor) => {
   return {
     editor: editor,
     onChanged(evt) {
-      evt.target.value === '' ? hideItem(evt.target) : showItem(evt.target);
+      evt.target.value === '' ? hide(evt.target) : show(evt.target);
     },
     onFocus(evt) {
       show(editor.querySelector('.listbox'));
@@ -44,17 +44,34 @@ export const getHandlers = (editor) => {
           break;
         }
         default: {
-          let re = new RegExp(evt.target.value, 'i');
+          console.log('input ', evt.target.value, evt.target.value === '');
           const choices = Array.from(editor.querySelectorAll('li'));
-          choices.forEach(hide);
-          const matched = choices.filter((li) => re.test(li.textContent));
-          matched.length == 0 ? choices.forEach(show) : matched.forEach(show);
+          if (evt.target.value === '') {
+            choices.forEach(showItem);
+            console.log('choices show %o', choices);
+          } else {
+            let re = new RegExp(evt.target.value, 'i');
+            choices.forEach(hideItem);
+            const matched = choices.filter((li) => re.test(li.textContent));
+            matched.length == 0
+              ? choices.forEach(showItem)
+              : matched.forEach(showItem);
+          }
         }
       }
     },
     onNew(evt) {
       evt.preventDefault();
       evt.stopPropagation();
+      const formPanel = reifyTemplate('form-template').firstElementChild;
+      console.log(editor);
+      console.log(editor.querySelector('.editor-panel'));
+      console.log(formPanel.querySelector('.form-panel'));
+      editor.replaceChild(
+        formPanel.querySelector('.form-panel'),
+        editor.querySelector('.editor-panel')
+      );
+
       console.log('New button clicked !!');
     },
   };
