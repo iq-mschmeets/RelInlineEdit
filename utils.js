@@ -58,16 +58,36 @@ export const reifyTemplate = (domID) =>
 export const hide = (el) => {
   el.classList.remove('show');
   el.classList.add('hide');
-  listenOnce(el, 'transitionEnd', () => {
-    el.style.display = 'none';
-  });
+  // listenOnce(el, 'transitionend', () => {
+  //   // el.style.display = 'none';
+  //   console.log('hide.transitionend fired ', el);
+  // });
 };
 
 export const show = (el) => {
   el.classList.remove('hide');
   el.classList.add('show');
-  listenOnce(el, 'transitionEnd', () => {
-    el.style.display = 'block;';
+  // listenOnce(el, 'transitionend', () => {
+  //   // el.style.display = 'block';
+  //   console.log('show.transitionend fired ', el);
+  // });
+};
+
+export const hideItem = (el) => {
+  el.classList.remove('showItem');
+  el.classList.add('hideItem');
+  listenOnce(el, 'transitionend', () => {
+    el.style.display = 'none';
+    console.log('hide.transitionend fired ', el);
+  });
+};
+
+export const showItem = (el) => {
+  el.classList.remove('hideItem');
+  el.classList.add('showItem');
+  listenOnce(el, 'transitionend', () => {
+    el.style.display = 'block';
+    console.log('show.transitionend fired ', el);
   });
 };
 

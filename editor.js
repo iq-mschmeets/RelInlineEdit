@@ -3,6 +3,8 @@ import {
   dispatchEvent,
   hide,
   show,
+  hideItem,
+  showItem,
   setValue,
   observeMouseOutsideOfContainer,
 } from './utils.js';
@@ -11,7 +13,7 @@ export const getHandlers = (editor) => {
   return {
     editor: editor,
     onChanged(evt) {
-      evt.target.value === '' ? hide(evt.target) : show(evt.target);
+      evt.target.value === '' ? hideItem(evt.target) : showItem(evt.target);
     },
     onFocus(evt) {
       show(editor.querySelector('.listbox'));
@@ -51,6 +53,8 @@ export const getHandlers = (editor) => {
       }
     },
     onNew(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
       console.log('New button clicked !!');
     },
   };
