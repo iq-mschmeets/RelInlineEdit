@@ -33,6 +33,14 @@ p {
   margin: 0.4em 0 0.4em 0;
 }
 
+iq-relationship-value {
+  display: inline-block;
+  position: relative;
+  min-width: 2em;
+  min-height: 1.4em;
+  border: 1px solid blue;
+  cursor: pointer;
+}
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -125,7 +133,6 @@ input:active {
 
 p.rel {
   position: relative;
-  cursor: pointer;
 }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */

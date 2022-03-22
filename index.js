@@ -8,6 +8,7 @@ import {
 } from './utils.js';
 import { makeEditor } from './editor.js';
 import { makeIQRelationAttributeEditor } from './IQRelationAttributeEditor.js';
+import { IQRelationshipValue } from './IQRelationshipValue.js';
 
 // TODO:
 // 1. Still need the "New" case, replace the list with a form.
@@ -15,12 +16,16 @@ import { makeIQRelationAttributeEditor } from './IQRelationAttributeEditor.js';
 //    emit lifecycle events.
 
 const table = document.querySelector('#center-column table');
+let irv = new IQRelationshipValue();
 
 customElements.whenDefined('iq-relation-attribute-editor').then(() => {
-  console.log('CE defined');
+  console.log('CE1 defined');
 });
 customElements.whenDefined('iq-attribute-form').then(() => {
-  console.log('CE defined');
+  console.log('CE2 defined');
+});
+customElements.whenDefined('iq-relationship-value').then(() => {
+  console.log('CE3 defined');
 });
 
 // Notice the pattern for this focus handler.
@@ -103,7 +108,7 @@ const cells = Array.from(table.querySelectorAll('td[tabindex="0"]'));
 // console.log(cells);
 // Add a listener to each of the p.rel's in the stamp.
 // When they get focus, we'll overlay the editor.
-sources.forEach((p) => p.addEventListener('focus', sourceOnFocus));
+// sources.forEach((p) => p.addEventListener('focus', sourceOnFocus));
 
 cells.forEach((p) => p.addEventListener('focus', sourceOnFocus));
 

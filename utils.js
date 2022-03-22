@@ -114,12 +114,13 @@ export const setValueForNode = (node, value) => {
 };
 
 export const addSafeEventListener = (el, selector, eventName, handler) => {
-  if (isNull(selector)) {
+  if (isNull(selector) || isNull(el.querySelector(selector))) {
     return {
       usub: () => {},
     };
   }
   const node = el.querySelector(selector);
+
   if (node) {
     node.addEventListener(eventName, handler);
     return {
@@ -137,6 +138,6 @@ export const removeSafeEventListener = (el, selector, eventName, handler) => {
   const node = el.querySelector(selector);
   if (node) {
     node.removeEventListener(eventName, handler);
-    return {};
   }
+  return {};
 };
