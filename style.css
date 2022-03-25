@@ -1,5 +1,4 @@
 :root {
-  /* --bg-color: #15181e; */
   --bg-color: white;
   --font-base: #444;
   --code-base: fuchsia;
@@ -37,8 +36,8 @@ iq-relationship-value {
   display: inline-block;
   position: relative;
   min-width: 2em;
-  min-height: 1.4em;
-  border: 1px solid blue;
+  min-height: 1.2em;
+  /* border: 1px solid blue; */
   cursor: pointer;
 }
 .material-icons {
@@ -58,36 +57,24 @@ iq-relationship-value {
   -webkit-font-smoothing: antialiased;
   /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
-
   /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
-  font-feature-settings: 'liga';
-}
-
-code {
-  color: var(--code-base);
 }
 
 .callout {
   color: var(--callout);
 }
 
-pre {
-  background-color: #15181e;
-  padding: 10px;
-  color: var(--code-base);
-}
-
 table {
   border: 2px solid #eaeaea;
   width: 100%;
 }
+
 thead {
   background-color: #666;
   color: white;
 }
+
 th {
   padding: 0.5em 1em;
 }
@@ -95,6 +82,7 @@ tbody td {
   border-bottom: 1px solid #eaeaea;
   padding: 0.5em 1em;
 }
+
 tbody td[tabindex] {
   position: relative;
 }
@@ -118,6 +106,7 @@ input:active {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .stamp {
   font-family: sans-serif;
   width: 350px;
@@ -135,7 +124,6 @@ p.rel {
   position: relative;
 }
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
   opacity: 1;
   transform: scale(1, 1);
@@ -148,6 +136,7 @@ p.rel {
   transform-origin: top left;
   transition: all 0.3s ease-in;
 }
+
 .showItem {
   opacity: 1;
   transform: scale(1);
@@ -173,8 +162,8 @@ p.rel {
 
 .container {
   max-width: 400px;
+  min-width: 300px;
   position: absolute;
-  /* border: 1px solid #cacaca; */
   font-family: sans-serif;
   z-index: 5;
   background-color: white;
@@ -199,9 +188,6 @@ ul[role='listbox'] li {
 }
 .listbox {
   padding: 0 0;
-  /* position: absolute;
-  top: 2.3em;
-  left: 0; */
   background-color: white;
   box-sizing: border-box;
   border: 1px #cacaca solid;
@@ -249,8 +235,6 @@ ul[role='listbox'] li {
   border: 2px solid #3498db;
 }
 
-.form-panel form {
-}
 .form-panel form label {
   font-size: 0.75em;
   font-weight: 600;

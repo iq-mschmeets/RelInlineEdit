@@ -7,6 +7,7 @@
     />
   </head>
   <body>
+
     <template id="editor-template">
       <div class="container" role="dialog" aria-label="">
         <link rel="stylesheet" href="./style.css"></link>
@@ -14,14 +15,7 @@
           <input type="text" placeholder="Find..." id="finder" />
           <div class="hide listbox">
             <ul id="" role="listbox">
-              <li role="listitem">Joe Blow Inc</li>
-              <li>BigCo</li>
-              <li>LittleCo</li>
-              <li>Magic Money</li>
-              <li>NoTax Co</li>
-              <li>Profits From Heaven</li>
-              <li>Widgets Unlimited</li>
-              <li>Toxicity</li>
+              
             </ul>
             <div class="footer" role="button" tabindex="0">
               <span class="material-icons">add_task</span>
@@ -31,22 +25,20 @@
         </div>
       </div>
     </template>
+
+    <template id="editor-list-item-template">
+      <li role="listitem"></li>
+    </template>
+
     <template id="form-template">
       <div class="container" role="dialog">
       <link rel="stylesheet" href="./style.css"></link>
         <div class="form-panel">
           <form action="#">
-            <div class="form-item">
-              <label for="fi-1">First</label>
-              <input type="text" value="" />
-            </div>
-            <div class="form-item">
-              <label for="fi-1">Second</label>
-              <input type="text" value="" />
-            </div>
-            <div class="form-item">
-              <label for="fi-1">Third</label>
-              <input type="text" value="" />
+            <input type="hidden" name="CLASS.CLASS_ID" value="" />
+            <input type="hidden" name="verb" value="Create" />
+            <div class="item-container">
+
             </div>
             <div
               style="
@@ -56,11 +48,13 @@
                 margin-top: 0.5em;
               "
             >
-              <div class="form-button cancel-button" style="color: red">
+              <div class="form-button cancel-button" style="color: red" 
+                  role="button" tabindex="0">
                 <span class="material-icons">close</span>
                 <span>Cancel</span>
               </div>
-              <div class="form-button save-button" style="color: green">
+              <div class="form-button save-button" style="color: green"
+                  role="button" tabindex="0">
                 <span class="material-icons">done</span>
                 <span>Save</span>
               </div>
@@ -69,6 +63,13 @@
         </div>
       </div>
     </template>
+
+    <template id="form-item">
+      <div class="form-item">
+        <label >Second</label>
+        <input type="text" name="" value="" />
+      </div>
+    </template
 
     <article>
       <div class="columns">

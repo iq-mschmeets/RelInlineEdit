@@ -23,6 +23,15 @@ export class IQRelationAttributeEditor extends HTMLElement {
     this.onNew = this.onNew.bind(this);
 
     this._listeners = [];
+    this._rows = [
+      'BigCo',
+      'LittleCo',
+      'Magic Money',
+      'NoTax Co',
+      'Profits From Heaven',
+      'Widgets Unlimited',
+      'Toxicity',
+    ];
   }
 
   static get observedAttributes() {
@@ -33,11 +42,7 @@ export class IQRelationAttributeEditor extends HTMLElement {
 
   connectedCallback() {
     console.log('%s.connectedCallback', this.tagName);
-    this.appendChild(reifyTemplate('editor-template'));
-    this.addEventHandlers();
-    requestAnimationFrame(() => {
-      this.qs('input').focus();
-    });
+    this.render();
   }
 
   disconnectedCallback() {
@@ -87,6 +92,31 @@ export class IQRelationAttributeEditor extends HTMLElement {
     this._listeners = [];
   }
 
+  render() {
+    this.appendChild(reifyTemplate('editor-template'));
+    this.addEventHandlers();
+    requestAnimationFrame(() => {
+      this.qs('input').focus();
+    });
+    this.update();
+  }
+
+  update() {
+    if (this._rows && this._rows.length > 0) {
+      const df = document.createDocumentFragment();
+      this._rows.forEach((item) => {
+        const itd = reifyTemplate(
+          'editor-list-item-template'
+        ).firstElementChild;
+        itd.textContent = item;
+        df.appendChild(itd);
+      });
+      requestAnimationFrame(() => {
+        this.qs('ul[role="listbox"]').replaceChildren(df);
+      });
+    }
+  }
+
   set value(val) {
     this._val = val;
   }
@@ -97,6 +127,11 @@ export class IQRelationAttributeEditor extends HTMLElement {
 
   get stringValue() {
     return this._stringVal;
+  }
+
+  set rows(val) {
+    this._rows = val;
+    this._update();
   }
 
   onChanged(evt) {
@@ -160,6 +195,22 @@ export class IQRelationAttributeEditor extends HTMLElement {
     const editorPanel = this.qs('.editor-panel');
 
     listenOnce(aForm, 'cancel', () => {
+      requestAnimationFrame(() => {
+        aForm.replaceWith(editorPanel);
+      });
+    });
+
+    listenOnce(aForm, 'change', (evt) => {
+      const dat = Array.from(evt.detail.entries());
+      console.log('%s.FormChange: %o', this.tagName, dat);
+      this.stringValue = dat[2][1];
+      // dat is array of tuples.
+      // Need to save at this point.
+
+      this.qs('input').blur();
+      hide(this);
+      dispatchEvent(this, 'change', this.stringValue);
+
       requestAnimationFrame(() => {
         aForm.replaceWith(editorPanel);
       });
