@@ -1,5 +1,6 @@
 // Import stylesheets
 import './style.css';
+
 import {
   listenOnce,
   observeMouseOutsideOfContainer,

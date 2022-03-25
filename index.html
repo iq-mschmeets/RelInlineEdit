@@ -5,12 +5,13 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
 
     <template id="editor-template">
       <div class="container" role="dialog" aria-label="">
-        <link rel="stylesheet" href="./style.css"></link>
+        <link rel="stylesheet" href="./style.css"/>
         <div class="editor-panel">
           <input type="text" placeholder="Find..." id="finder" />
           <div class="hide listbox">
@@ -32,7 +33,7 @@
 
     <template id="form-template">
       <div class="container" role="dialog">
-      <link rel="stylesheet" href="./style.css"></link>
+      <link rel="stylesheet" href="./style.css"/>
         <div class="form-panel">
           <form action="#">
             <input type="hidden" name="CLASS.CLASS_ID" value="" />
@@ -40,14 +41,7 @@
             <div class="item-container">
 
             </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 0.5em;
-              "
-            >
+            <div class="form-footer" >
               <div class="form-button cancel-button" style="color: red" 
                   role="button" tabindex="0">
                 <span class="material-icons">close</span>
@@ -69,7 +63,7 @@
         <label >Second</label>
         <input type="text" name="" value="" />
       </div>
-    </template
+    </template>
 
     <article>
       <div class="columns">
@@ -119,18 +113,8 @@
           </table>
         </div>
 
-        <div class="dropdown hide">
-          <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-          <div id="myDropdown" class="dropdown-content">
-            <a href="#">Joe Blow Inc</a>
-            <a href="#">BigCo</a>
-            <a href="#">Pennies From Heaven</a>
-            <a href="#">LittleCo</a>
-            <a href="#">Magic Money</a>
-          </div>
-        </div>
       </div>
     </article>
-    <!-- <script src="./index.js"></script> -->
+   <script type="module" src="./index.js"></script>
   </body>
 </html>

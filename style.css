@@ -264,7 +264,13 @@ ul[role='listbox'] li {
 .material-icons {
   vertical-align: bottom;
 }
+.form-panel form .form-footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5em;
 
+}
 span.lbl {
   font-size: 0.8em;
   font-weight: bold;
