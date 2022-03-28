@@ -81,7 +81,7 @@ export class IQRelationshipValue extends HTMLElement {
     }
   }
   invokeEdit() {
-    let editor = makeIQRelationAttributeEditor();
+    let editor = makeIQRelationAttributeEditor();       
     this._initialValue = this.textContent;
 
     // Set the intial value.

@@ -79,18 +79,5 @@ export const getHandlers = (editor) => {
 };
 
 export const makeEditor = () => {
-  // const editor = reifyTemplate('editor-template').firstElementChild;
-  // const input = editor.querySelector('input');
-  // const newBtn = editor.querySelector('.listbox .footer');
-  // const list = editor.querySelector('.listbox');
-  // const handlers = getHandlers(editor);
-
-  // input.addEventListener('change', handlers.onChanged);
-  // input.addEventListener('input', handlers.onInput);
-  // input.addEventListener('focus', handlers.onFocus);
-  // list.addEventListener('click', handlers.onSelect);
-  // input.addEventListener('keydown', handlers.onCancelKey);
-  // newBtn.addEventListener('click', handlers.onNew);
-
-  return new IQRelationAttributeEditor();
+    return new IQRelationAttributeEditor();
 };

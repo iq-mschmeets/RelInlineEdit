@@ -39,6 +39,18 @@ const sourceOnFocus = (evt) => {
   if (!isEditing) {
     const src = evt.target;
     let editor = makeIQRelationAttributeEditor();
+    // requestAnimationFrame( () => {
+    editor.rows = [
+      'BigCo',
+      'LittleCo',
+      'Magic Money',
+      'NoTax Co',
+      'Profits From Heaven',
+      'Widgets Unlimited',
+      'Toxicity',
+    ];
+    console.log( "editor.rows set %o", editor.rows );
+    // });
 
     // Set the intial value.
     requestAnimationFrame(() => {
